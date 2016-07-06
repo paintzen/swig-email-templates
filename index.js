@@ -9,7 +9,7 @@ var htmlToText = require('html-to-text');
 
 var EmailTemplates = function(options) {
 
-  var self = this;
+  var self = this || {};
 
   options = options || {}
   options.root = options.root || path.join(__dirname, 'templates');
@@ -28,7 +28,7 @@ var EmailTemplates = function(options) {
   /*
    * (Internal) Compile and render a swig template
    */
-  this.useTemplate = function(templatePath, context) {
+  self.useTemplate = function(templatePath, context) {
     var template = swig.compileFile(templatePath);
     return template(context);
   }
@@ -36,7 +36,7 @@ var EmailTemplates = function(options) {
   /*
    * (Internal) Generate text counterpart to HTML template
    */
-  this.generateText = function(templatePath, context, html, cb) {
+  self.generateText = function(templatePath, context, html, cb) {
     if (options.hasOwnProperty('text') && !options.text)
       return cb(null, null);
 
@@ -55,7 +55,7 @@ var EmailTemplates = function(options) {
   /*
    * (Internal) Rewrite URLs in a Cheerio doc using a given function
    */
-  this.rewriteUrls = function($, rewrite) {
+  self.rewriteUrls = function($, rewrite) {
     $("a").each(function(idx, anchor) {
       var href = $(anchor).attr('href');
       if (href !== undefined) {
@@ -67,7 +67,7 @@ var EmailTemplates = function(options) {
   /*
    * Render a template given 'templateName' and context 'context'.
    */
-  this.render = function(templateName, context, cb) {
+  self.render = function(templateName, context, cb) {
     var templatePath = path.resolve(options.root, templateName);
 
     context = context || {};
