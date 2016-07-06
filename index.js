@@ -94,6 +94,8 @@ var EmailTemplates = function(options) {
       });
     });
   }
+
+  return self;
 }
 
 module.exports = EmailTemplates;
